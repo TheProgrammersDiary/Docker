@@ -28,8 +28,7 @@ services:
         ports:
         - 5432:5432
         environment:
-            POSTGRES_DB: posts
-            POSTGRES_USER: postgres
+            POSTGRES_USER: posts
             POSTGRES_PASSWORD: admin
     pgadmin:
         image: dpage/pgadmin4
