@@ -1,5 +1,6 @@
 package com.evalvis;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -23,7 +24,11 @@ public class PostCommentTest {
                     .withExposedService("post", 8080);
 
     @Test
-    public void check() {
-        get("http://localhost:8081/posts/test").then().assertThat().statusCode(200);
+    public void serviceResponds() {
+        get("http://localhost:8080/comments/list-comments/1")
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("", Matchers.hasSize(0));
     }
 }
