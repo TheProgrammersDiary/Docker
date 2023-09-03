@@ -1,4 +1,4 @@
-version: "1"
+version: "3.8"
 services:
     blog:
         container_name: blog
@@ -6,7 +6,7 @@ services:
             context: ../monolith
             dockerfile: Dockerfile
         ports:
-        - 8080:8080
+        - "8080:8080"
         depends_on:
         - mongodb
         environment:
@@ -17,7 +17,7 @@ services:
             context: ../post
             dockerfile: Dockerfile
         ports:
-        - 8081:8081
+        - "8081:8080"
         depends_on:
         - postgres
         environment:
@@ -26,7 +26,7 @@ services:
         image: postgres:15.4
         container_name: postgres
         ports:
-        - 5432:5432
+        - "5432:5432"
         environment:
             POSTGRES_USER: posts
             POSTGRES_PASSWORD: admin
@@ -34,7 +34,7 @@ services:
         image: dpage/pgadmin4
         container_name: pgadmin4_container
         ports:
-        - 5050:80
+        - "5050:80"
         environment:
             PGADMIN_DEFAULT_EMAIL: admin@admin.com
             PGADMIN_DEFAULT_PASSWORD: admin
@@ -44,4 +44,4 @@ services:
         environment:
             MONGO_INITDB_DATABASE: blog
         ports:
-            - 27017:27017  
+            - "27017:27017"

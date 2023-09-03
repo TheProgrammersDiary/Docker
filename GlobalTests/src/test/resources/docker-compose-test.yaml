@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+    blog:
+        image: docker-blog
+        ports:
+            - "8080:8080"
+        depends_on:
+            - mongodb
+        environment:
+            SPRING_PROFILES_ACTIVE: docker
+    post:
+        image: docker-post
+        ports:
+            - "8081:8080"
+        depends_on:
+            - postgres
+        environment:
+            SPRING_PROFILES_ACTIVE: docker
+    postgres:
+        image: postgres:15.4
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: posts
+            POSTGRES_PASSWORD: admin
+    mongodb:
+        image: mongo:7.0
+        ports:
+            - "27017:27017"
+        environment:
+            MONGO_INITDB_DATABASE: blog
