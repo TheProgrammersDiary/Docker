@@ -1,4 +1,4 @@
-package com.evalvis;
+package com.evalvis.globaltests;
 
 import au.com.origin.snapshots.Expect;
 import au.com.origin.snapshots.annotations.SnapshotName;
@@ -67,7 +67,8 @@ public class PostCommentTest {
                                     .setAuthor("author" + i)
                                     .setContent("content" + i)
                                     .setPostId(postId)
-                            .build().toString()
+                                    .build()
+                                    .toString()
                     )
                     .post("/comments/create")
                     .getBody()
