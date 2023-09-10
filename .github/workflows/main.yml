@@ -23,11 +23,6 @@ jobs:
         path: ~/.m2
         key: ${{runner.os}}-m2-${{hashFiles('GlobalTests/pom.xml')}}
         restore-keys: ${{runner.os}}-m2
-    - name: Package
-      run: mvn -B -f GlobalTests/pom.xml package
-    - name: Publish Test Report
-      if: success() || failure()
-      uses: scacap/action-surefire-report@v1
     -
       name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -39,7 +34,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         username: ${{secrets.DOCKERHUB_USER}}
-        password: ${{secrets.DOCKERHUB_PASSWORD}}
+        password: ${{secrets.DOCKERHUB_PASSWORD}}        
+    - 
+      name: Package
+      run: mvn -B -f GlobalTests/pom.xml package
+    - 
+      name: Publish Test Report
+      if: success() || failure()
+      uses: scacap/action-surefire-report@v1
     -
       name: Build and push docker image
       uses: docker/build-push-action@v4
