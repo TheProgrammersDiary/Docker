@@ -1,5 +1,9 @@
 name: GlobalTests CI/CD
 on: [repository_dispatch]
+on:
+  repository_dispatch:
+    types:
+      - trigger_tests
 jobs:
   run_tests:
     runs-on: ubuntu-latest
