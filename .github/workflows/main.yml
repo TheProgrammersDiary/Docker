@@ -1,13 +1,8 @@
 name: GlobalTests CI/CD
-on: 
-    workflow_run:
-        workflows: ["Monolith CI/CD", "Post microservice CI/CD"]
-        types:
-          - completed
+on: [repository_dispatch]
 jobs:
   run_tests:
     runs-on: ubuntu-latest
-    if: ${{github.event.workflow_run.conclusion == "success"}}
     permissions:
       checks: write
       contents: read
