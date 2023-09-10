@@ -1,7 +1,7 @@
 version: "3.8"
 services:
     blog:
-        image: localstradedocker/blog_latest
+        image: localstradedocker/blog:blog_latest
         ports:
             - "8080:8080"
         depends_on:
@@ -9,7 +9,7 @@ services:
         environment:
             SPRING_PROFILES_ACTIVE: docker
     post:
-        image: localstradedocker/post_latest
+        image: localstradedocker/blog:post_latest
         ports:
             - "8081:8080"
         depends_on:
