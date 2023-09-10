@@ -1,12 +1,13 @@
-name: Monolith CI/CD
-on:
- push:
-    branches: [main]
- pull_request:
-    branches: [main]
+name: GlobalTests CI/CD
+on: 
+    workflow_run:
+        workflows: ["Monolith CI/CD", "Post microservice CI/CD"]
+        types:
+          - completed
 jobs:
-  ship_container:
+  run_tests:
     runs-on: ubuntu-latest
+    if: ${{github.event.workflow_run.conclusion == "success"}}
     permissions:
       checks: write
       contents: read
@@ -21,7 +22,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.m2
-        key: ${{runner.os}}-m2-${{hashFiles('GlobalTests/pom.xml')}}
+        key: ${{runner.os}}-m2-${{hashFiles("GlobalTests/pom.xml")}}
         restore-keys: ${{runner.os}}-m2
     -
       name: Set up QEMU
@@ -42,10 +43,3 @@ jobs:
       name: Publish Test Report
       if: success() || failure()
       uses: scacap/action-surefire-report@v1
-    -
-      name: Build and push docker image
-      uses: docker/build-push-action@v4
-      with:
-        context: .
-        push: true
-        tags: localstradedocker/blog:globaltests_latest
