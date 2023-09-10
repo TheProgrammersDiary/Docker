@@ -1,5 +1,4 @@
 name: GlobalTests CI/CD
-on: [repository_dispatch]
 on:
   repository_dispatch:
     types:
