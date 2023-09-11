@@ -36,8 +36,8 @@ jobs:
         username: ${{secrets.DOCKERHUB_USER}}
         password: ${{secrets.DOCKERHUB_PASSWORD}}        
     - 
-      name: Package
-      run: mvn -B -f GlobalTests/pom.xml package
+      name: Test
+      run: mvn -B -f GlobalTests/pom.xml test
     - 
       name: Publish Test Report
       if: success() || failure()
