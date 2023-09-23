@@ -11,8 +11,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.node.ArrayNode;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.node.ObjectNode;
-import protobufs.CommentRequest;
-import protobufs.PostRequest;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,16 +38,18 @@ public class PostCommentTest {
     @Test
     @SnapshotName("createsPostWithComments")
     public void createsPostWithComments() throws IOException {
-        PostRequest postRequest = PostRequest
-                .newBuilder()
-                .setAuthor("Human")
-                .setTitle("Testing matters")
-                .setContent("You either test first, test along coding, or don't test at all.")
-                .build();
-
         String postId = given()
                 .baseUri("http://localhost:8081")
-                .body(postRequest.toString())
+                .body(
+                        new ObjectMapper()
+                                .createObjectNode()
+                                .put("author", "Human")
+                                .put("title", "Testing matters")
+                                .put(
+                                        "content",
+                                        "You either test first, test along coding, or don't test at all."
+                                )
+                )
                 .when()
                 .post("/posts/create")
                 .getBody()
@@ -62,13 +62,11 @@ public class PostCommentTest {
             commentIds[i] = given()
                     .baseUri("http://localhost:8080")
                     .body(
-                            CommentRequest
-                                    .newBuilder()
-                                    .setAuthor("author" + i)
-                                    .setContent("content" + i)
-                                    .setPostId(postId)
-                                    .build()
-                                    .toString()
+                            new ObjectMapper()
+                                    .createObjectNode()
+                                    .put("author", "author" + i)
+                                    .put("content", "content" + i)
+                                    .put("postId", postId)
                     )
                     .post("/comments/create")
                     .getBody()
