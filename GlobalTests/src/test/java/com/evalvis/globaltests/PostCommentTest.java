@@ -40,6 +40,7 @@ public class PostCommentTest {
     public void createsPostWithComments() throws IOException {
         String postId = given()
                 .baseUri("http://localhost:8081")
+                .contentType("application/json")
                 .body(
                         new ObjectMapper()
                                 .createObjectNode()
@@ -49,6 +50,7 @@ public class PostCommentTest {
                                         "content",
                                         "You either test first, test along coding, or don't test at all."
                                 )
+                                .toString()
                 )
                 .when()
                 .post("/posts/create")
@@ -61,12 +63,14 @@ public class PostCommentTest {
         for(int i = 0; i < commentCount; i++) {
             commentIds[i] = given()
                     .baseUri("http://localhost:8080")
+                    .contentType("application/json")
                     .body(
                             new ObjectMapper()
                                     .createObjectNode()
                                     .put("author", "author" + i)
                                     .put("content", "content" + i)
                                     .put("postId", postId)
+                                    .toString()
                     )
                     .post("/comments/create")
                     .getBody()
