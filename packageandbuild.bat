@@ -1,8 +1,4 @@
 @echo off
-call docker-compose stop
-call docker-compose rm -f
-call docker system prune -f
-call docker volume prune -f
 
 cd ../monolith/blog
 call mvn clean package
