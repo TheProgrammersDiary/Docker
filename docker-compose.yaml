@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 services:
     blog:
         container_name: blog
@@ -11,6 +11,7 @@ services:
         - mongodb
         environment:
             SPRING_PROFILES_ACTIVE: docker
+            
     post:
         container_name: post
         build:
@@ -22,6 +23,7 @@ services:
         - postgres
         environment:
             SPRING_PROFILES_ACTIVE: docker
+            
     frontend:
         container_name: frontend
         build:
@@ -31,6 +33,7 @@ services:
         - "3000:3000"
         volumes:
         - node_modules:/app/node_modules/
+        
     postgres:
         image: postgres:15.4
         container_name: postgres
@@ -39,6 +42,7 @@ services:
         environment:
             POSTGRES_USER: posts
             POSTGRES_PASSWORD: admin
+            
     pgadmin:
         image: dpage/pgadmin4
         container_name: pgadmin4_container
@@ -47,6 +51,7 @@ services:
         environment:
             PGADMIN_DEFAULT_EMAIL: admin@admin.com
             PGADMIN_DEFAULT_PASSWORD: admin
+            
     mongodb:
         image: mongo:7.0
         container_name: mongodb
@@ -54,6 +59,56 @@ services:
             MONGO_INITDB_DATABASE: blog
         ports:
             - "27017:27017"
+    
+    elasticsearch:
+        container_name: elasticsearch
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.1.1
+        environment: 
+            - discovery.type=single-node
+            - xpack.security.enabled=false
+        ports:
+            - "9200:9200"
+            - "9300:9300"
+      
+    logstash:
+        container_name: logstash
+        image: docker.elastic.co/logstash/logstash:7.1.1
+        depends_on: 
+            - elasticsearch
+        ports:
+            - "5044:5044"
+        command: logstash -f /etc/logstash/conf.d/logstash.conf
+        volumes:
+            - ./logstash.conf:/etc/logstash/conf.d/logstash.conf:ro
+      
+    kibana:
+        container_name: kibana
+        image: docker.elastic.co/kibana/kibana:7.1.1
+        depends_on:
+            - elasticsearch
+        ports: 
+            - "5601:5601"
+            
+    prometheus:
+        container_name: prometheus
+        image: prom/prometheus:v2.35.0
+        restart: unless-stopped
+        ports:
+            - "9090:9090"
+        command:
+            - "--config.file=/prometheus.yaml"
+        volumes:
+            - "./prometheus.yaml:/prometheus.yaml"
+      
+    grafana:
+        container_name: grafana
+        image: grafana/grafana-oss:8.5.2
+        restart: unless-stopped
+        ports:
+            - "3010:3000"
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=admin
+            - GF_SERVER_DOMAIN=localhost
+            
 volumes:
     node_modules:
-        
