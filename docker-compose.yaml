@@ -9,6 +9,7 @@ services:
         - "8080:8080"
         depends_on:
         - mongodb
+        - postgres_blog
         environment:
             SPRING_PROFILES_ACTIVE: docker
             
@@ -42,6 +43,16 @@ services:
         environment:
             POSTGRES_USER: posts
             POSTGRES_PASSWORD: admin
+            
+    postgres_blog:
+        image: postgres:15.4
+        container_name: postgres_blog
+        ports:
+        - "5433:5432"
+        environment:
+            POSTGRES_USER: blog
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: users
             
     pgadmin:
         image: dpage/pgadmin4
