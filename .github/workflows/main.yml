@@ -33,7 +33,7 @@ jobs:
       name: Docker compose
       uses: isbang/compose-action@v1.5.1
       with:
-          compose-file: ".github/workflows/docker-compose.yaml"
+          compose-file: ".github/docker-compose.yaml"
           down-flags: "--volumes"        
     - 
       name: Sleep for 30 seconds
