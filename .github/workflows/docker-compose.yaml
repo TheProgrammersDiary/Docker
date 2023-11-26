@@ -23,6 +23,15 @@ services:
         environment:
             POSTGRES_USER: posts
             POSTGRES_PASSWORD: admin
+    postgres_blog:
+        image: postgres:15.4
+        container_name: postgres_blog
+        ports:
+        - "5433:5432"
+        environment:
+            POSTGRES_USER: blog
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: users
     mongodb:
         image: mongo:7.0
         ports:
