@@ -11,6 +11,8 @@ services:
         - mongodb
         - postgres_blog
         environment:
+            google_client_id: ${google_client_id}
+            google_client_secret: ${google_client_secret}
             SPRING_PROFILES_ACTIVE: docker
             
     post:
