@@ -4,6 +4,7 @@ on:
     types:
       - trigger_tests_monolith
       - trigger_tests_post
+      - trigger_tests_security
 jobs:
   run_tests:
     runs-on: ubuntu-latest
