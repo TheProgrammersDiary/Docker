@@ -40,6 +40,7 @@ public class PostCommentTest {
                                 )
                                 .toString()
                 )
+                .cookie(jwt)
                 .when()
                 .post("/posts/create")
                 .getBody()

@@ -26,6 +26,7 @@ services:
         depends_on:
         - postgres
         environment:
+            jwt512: ${jwt512}
             SPRING_PROFILES_ACTIVE: docker
             
     frontend:
