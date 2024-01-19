@@ -13,13 +13,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.given;
 import static shadow.org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ExtendWith({SnapshotExtension.class})
 public class PostCommentTest {
-
     private Expect expect;
+    private final String sslPassword = System.getenv("ssl_blog_passphrase");
 
     @Test
     @SnapshotName("createsPostWithComments")
@@ -27,7 +27,8 @@ public class PostCommentTest {
         signUp();
         Cookie jwt = login();
         String postId = given()
-                .baseUri("http://localhost:8081")
+                .trustStore("blog.p12", sslPassword)
+                .baseUri("https://localhost:8081")
                 .contentType("application/json")
                 .body(
                         new ObjectMapper()
@@ -51,7 +52,8 @@ public class PostCommentTest {
         String[] commentIds = new String[commentCount];
         for(int i = 0; i < commentCount; i++) {
             commentIds[i] = given()
-                    .baseUri("http://localhost:8080")
+                    .trustStore("blog.p12", sslPassword)
+                    .baseUri("https://localhost:8080")
                     .contentType("application/json")
                     .body(
                             new ObjectMapper()
@@ -70,7 +72,8 @@ public class PostCommentTest {
         ArrayNode comments = (ArrayNode) new ObjectMapper()
                 .readTree(
                         given()
-                                .baseUri("http://localhost:8080")
+                                .trustStore("blog.p12", sslPassword)
+                                .baseUri("https://localhost:8080")
                                 .contentType("application/json")
                                 .cookie(jwt)
                                 .get("/comments/list-comments/" + postId)
@@ -87,7 +90,8 @@ public class PostCommentTest {
 
     private void signUp() {
         given()
-                .baseUri("http://localhost:8080")
+                .trustStore("blog.p12", sslPassword)
+                .baseUri("https://localhost:8080")
                 .contentType("application/json")
                 .body(
                         new ObjectMapper()
@@ -102,7 +106,8 @@ public class PostCommentTest {
 
     private Cookie login() {
         return given()
-                .baseUri("http://localhost:8080")
+                .trustStore("blog.p12", sslPassword)
+                .baseUri("https://localhost:8080")
                 .contentType("application/json")
                 .body(
                         new ObjectMapper()
