@@ -29,7 +29,7 @@ jobs:
       uses: docker/login-action@v2
       with:
         username: ${{secrets.DOCKERHUB_USER}}
-        password: ${{secrets.DOCKERHUB_PASSWORD}}  
+        password: ${{secrets.DOCKERHUB_PASSWORD}}
     -
       name: Docker compose
       uses: isbang/compose-action@v1.5.1
@@ -42,7 +42,7 @@ jobs:
       shell: bash
     -
       name: Test
-      run: mvn -B -f GlobalTests/pom.xml test
+      run: mvn -B -f GlobalTests/pom.xml -Dssl_blog_passphrase=${{secrets.ssl_blog_passphrase}} test
     - 
       name: Publish Test Report
       if: success() || failure()
