@@ -21,6 +21,9 @@ public class PostCommentTest {
     private Expect expect;
     private final String sslPassword = System.getenv("ssl_blog_passphrase");
 
+    private final String postUrl = "https://localhost:8081";
+    private final String blogUrl = "https://localhost:8080";
+
     @Test
     @SnapshotName("createsPostWithComments")
     public void createsPostWithComments() throws IOException {
@@ -28,7 +31,7 @@ public class PostCommentTest {
         Cookie jwt = login();
         String postId = given()
                 .trustStore("blog.p12", sslPassword)
-                .baseUri("https://localhost:8081")
+                .baseUri(postUrl)
                 .contentType("application/json")
                 .body(
                         new ObjectMapper()
@@ -53,7 +56,7 @@ public class PostCommentTest {
         for(int i = 0; i < commentCount; i++) {
             commentIds[i] = given()
                     .trustStore("blog.p12", sslPassword)
-                    .baseUri("https://localhost:8080")
+                    .baseUri(blogUrl)
                     .contentType("application/json")
                     .body(
                             new ObjectMapper()
@@ -73,7 +76,7 @@ public class PostCommentTest {
                 .readTree(
                         given()
                                 .trustStore("blog.p12", sslPassword)
-                                .baseUri("https://localhost:8080")
+                                .baseUri(blogUrl)
                                 .contentType("application/json")
                                 .cookie(jwt)
                                 .get("/comments/list-comments/" + postId)
@@ -91,7 +94,7 @@ public class PostCommentTest {
     private void signUp() {
         given()
                 .trustStore("blog.p12", sslPassword)
-                .baseUri("https://localhost:8080")
+                .baseUri(blogUrl)
                 .contentType("application/json")
                 .body(
                         new ObjectMapper()
@@ -107,7 +110,7 @@ public class PostCommentTest {
     private Cookie login() {
         return given()
                 .trustStore("blog.p12", sslPassword)
-                .baseUri("https://localhost:8080")
+                .baseUri(blogUrl)
                 .contentType("application/json")
                 .body(
                         new ObjectMapper()
