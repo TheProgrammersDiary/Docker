@@ -7,6 +7,8 @@ services:
         depends_on:
             - mongodb
         environment:
+            jwt512: ${jwt512}
+            ssl_blog_passphrase: ${ssl_blog_passphrase}
             SPRING_PROFILES_ACTIVE: docker
             
     post:
@@ -16,6 +18,8 @@ services:
         depends_on:
             - postgres
         environment:
+            jwt512: ${jwt512}
+            ssl_blog_passphrase: ${ssl_blog_passphrase}
             SPRING_PROFILES_ACTIVE: docker
             
     postgres:

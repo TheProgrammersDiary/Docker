@@ -42,6 +42,9 @@ jobs:
       shell: bash
     -
       name: Test
+      env:
+          JWT512: ${{secrets.jwt512}}
+          ssl_blog_passphrase: ${{secrets.ssl_blog_passphrase}}
       run: mvn -B -f GlobalTests/pom.xml -Dssl_blog_passphrase=${{secrets.ssl_blog_passphrase}} test
     - 
       name: Publish Test Report
