@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.restassured.http.Cookie;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -28,7 +29,9 @@ public class PostCommentTest {
     @SnapshotName("createsPostWithComments")
     public void createsPostWithComments() throws IOException {
         signUp();
-        Cookie jwt = login();
+        Response login = login();
+        Cookie jwt = login.getDetailedCookie("jwt");
+        String csrf = login.getBody().jsonPath().get("csrf").toString();
         String postId = given()
                 .trustStore("blog.p12", sslPassword)
                 .baseUri(postUrl)
@@ -44,6 +47,7 @@ public class PostCommentTest {
                                 )
                                 .toString()
                 )
+                .header("X-CSRF-TOKEN", csrf)
                 .cookie(jwt)
                 .when()
                 .post("/posts/create")
@@ -107,7 +111,7 @@ public class PostCommentTest {
                 .post("/users/signup");
     }
 
-    private Cookie login() {
+    private Response login() {
         return given()
                 .trustStore("blog.p12", sslPassword)
                 .baseUri(blogUrl)
@@ -119,8 +123,7 @@ public class PostCommentTest {
                                 .put("password", "test")
                                 .toString()
                 )
-                .post("/users/login")
-                .getDetailedCookie("jwt");
+                .post("/users/login");
     }
 
     private void maskProperties(ArrayNode node, String... properties) {
