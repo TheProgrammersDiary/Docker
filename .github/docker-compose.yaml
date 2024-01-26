@@ -8,6 +8,7 @@ services:
             - mongodb
         environment:
             SPRING_PROFILES_ACTIVE: docker
+            
     post:
         image: localstradedocker/blog:post_latest
         ports:
@@ -16,6 +17,7 @@ services:
             - postgres
         environment:
             SPRING_PROFILES_ACTIVE: docker
+            
     postgres:
         image: postgres:15.4
         ports:
@@ -23,6 +25,7 @@ services:
         environment:
             POSTGRES_USER: posts
             POSTGRES_PASSWORD: admin
+            
     postgres_blog:
         image: postgres:15.4
         container_name: postgres_blog
@@ -32,9 +35,16 @@ services:
             POSTGRES_USER: blog
             POSTGRES_PASSWORD: admin
             POSTGRES_DB: users
+            
     mongodb:
         image: mongo:7.0
         ports:
             - "27017:27017"
         environment:
             MONGO_INITDB_DATABASE: blog
+            
+    redis:
+        image: "redis:latest"
+        container_name: redis
+        ports:
+          - "6379:6379"
