@@ -11,6 +11,11 @@ jobs:
     permissions:
       checks: write
       contents: read
+    env:
+        google_client_id: ${{secrets.google_client_id}}
+        google_client_secret: ${{secrets.google_client_secret}}
+        JWT512: ${{secrets.jwt512}}
+        ssl_blog_passphrase: ${{secrets.ssl_blog_passphrase}}
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -42,9 +47,6 @@ jobs:
       shell: bash
     -
       name: Test
-      env:
-          JWT512: ${{secrets.jwt512}}
-          ssl_blog_passphrase: ${{secrets.ssl_blog_passphrase}}
       run: mvn -B -f GlobalTests/pom.xml -Dssl_blog_passphrase=${{secrets.ssl_blog_passphrase}} test
     - 
       name: Publish Test Report
