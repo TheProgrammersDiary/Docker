@@ -26,10 +26,7 @@ public class PostCommentTest {
     private final String blogUrl;
 
     public PostCommentTest() {
-        String sslPassword = System.getenv("ssl_blog_passphrase");
-        this.sslPassword = (sslPassword == null || sslPassword.isBlank())
-                ? System.getProperty("ssl_blog_passphrase")
-                : sslPassword;
+        this.sslPassword = System.getenv("ssl_blog_passphrase");
         this.postUrl = "https://localhost:8081";
         this.blogUrl = "https://localhost:8080";
     }
