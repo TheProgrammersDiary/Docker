@@ -20,10 +20,19 @@ import static shadow.org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @ExtendWith({SnapshotExtension.class})
 public class PostCommentTest {
     private Expect expect;
-    private final String sslPassword = System.getenv("ssl_blog_passphrase");
+    private final String sslPassword;
 
-    private final String postUrl = "https://localhost:8081";
-    private final String blogUrl = "https://localhost:8080";
+    private final String postUrl;
+    private final String blogUrl;
+
+    public PostCommentTest() {
+        String sslPassword = System.getenv("ssl_blog_passphrase");
+        this.sslPassword = (sslPassword == null || sslPassword.isBlank())
+                ? System.getProperty("ssl_blog_passphrase")
+                : sslPassword;
+        this.postUrl = "https://localhost:8081";
+        this.blogUrl = "https://localhost:8080";
+    }
 
     @Test
     @SnapshotName("createsPostWithComments")
