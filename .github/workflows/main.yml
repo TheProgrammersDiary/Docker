@@ -52,3 +52,6 @@ jobs:
       name: Publish Test Report
       if: success() || failure()
       uses: scacap/action-surefire-report@v1
+    - name: Dump docker logs on failure
+      if: failure()
+      uses: jwalton/gh-docker-logs@v2
