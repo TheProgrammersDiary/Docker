@@ -12,6 +12,8 @@ services:
         - postgres_blog
         - redis
         environment:
+            smtp_email: ${smtp_email}
+            smtp_password: ${smtp_password}
             google_client_id: ${google_client_id}
             google_client_secret: ${google_client_secret}
             jwt512: ${jwt512}
