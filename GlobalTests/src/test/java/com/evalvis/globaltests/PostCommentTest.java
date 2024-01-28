@@ -109,9 +109,9 @@ public class PostCommentTest {
                 .body(
                         new ObjectMapper()
                                 .createObjectNode()
+                                .put("email", "testuser@test.com")
                                 .put("username", "testuser")
                                 .put("password", "test")
-                                .put("email", "testuser@test.com")
                                 .toString()
                 )
                 .post("/users/signup");
@@ -125,7 +125,7 @@ public class PostCommentTest {
                 .body(
                         new ObjectMapper()
                                 .createObjectNode()
-                                .put("username", "testuser")
+                                .put("email", "testuser@test.com")
                                 .put("password", "test")
                                 .toString()
                 )
