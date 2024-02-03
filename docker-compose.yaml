@@ -34,8 +34,8 @@ services:
         environment:
             jwt512: ${jwt512}
             ssl_blog_passphrase: ${ssl_blog_passphrase}
-            SPRING_PROFILES_ACTIVE: docker
             minio_password: ${minio_password}
+            SPRING_PROFILES_ACTIVE: docker
             
     frontend:
         container_name: frontend

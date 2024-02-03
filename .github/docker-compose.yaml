@@ -22,9 +22,9 @@ services:
         depends_on:
             - postgres
         environment:
-            minio_password: ${{secrets.minio_password}}
             jwt512: ${jwt512}
             ssl_blog_passphrase: ${ssl_blog_passphrase}
+            minio_password: ${minio_password}
             SPRING_PROFILES_ACTIVE: docker
             
     postgres:
