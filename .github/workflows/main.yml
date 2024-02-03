@@ -13,6 +13,7 @@ jobs:
       checks: write
       contents: read
     env:
+        minio_password: ${{secrets.minio_password}}
         smtp_email: ${{secrets.smtp_email}}
         smtp_password: ${{secrets.smtp_password}}
         google_client_id: ${{secrets.google_client_id}}
@@ -50,7 +51,11 @@ jobs:
       shell: bash
     -
       name: Test
-      run: mvn -B -f GlobalTests/pom.xml -Dssl_blog_passphrase=${{secrets.ssl_blog_passphrase}} test
+      run: |
+          mvn -B -f GlobalTests/pom.xml
+          -Dssl_blog_passphrase=${{secrets.ssl_blog_passphrase}}
+          -minio_password=${{secrets.minio_password}}
+          test
     - 
       name: Publish Test Report
       if: success() || failure()
