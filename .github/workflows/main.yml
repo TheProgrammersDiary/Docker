@@ -54,7 +54,7 @@ jobs:
       run: |
           mvn -B -f GlobalTests/pom.xml
           -Dssl_blog_passphrase=${{secrets.ssl_blog_passphrase}}
-          -minio_password=${{secrets.minio_password}}
+          -Dminio_password=${{secrets.minio_password}}
           test
     - 
       name: Publish Test Report
