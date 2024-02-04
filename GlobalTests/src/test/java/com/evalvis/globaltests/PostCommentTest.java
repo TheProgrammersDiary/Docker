@@ -34,7 +34,7 @@ public class PostCommentTest {
     @Test
     @SnapshotName("createsPostWithComments")
     public void createsPostWithComments() throws IOException {
-        //signUp();
+        signUp();
         Response login = login();
         Cookie jwt = login.getDetailedCookie("jwt");
         String csrf = login.getBody().jsonPath().get("csrf").toString();
