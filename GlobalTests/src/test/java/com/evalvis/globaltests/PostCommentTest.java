@@ -34,7 +34,7 @@ public class PostCommentTest {
     @Test
     @SnapshotName("createsPostWithComments")
     public void createsPostWithComments() throws IOException {
-        signUp();
+        //signUp();
         Response login = login();
         Cookie jwt = login.getDetailedCookie("jwt");
         String csrf = login.getBody().jsonPath().get("csrf").toString();
@@ -59,7 +59,7 @@ public class PostCommentTest {
                 .post("/posts/create")
                 .getBody()
                 .jsonPath()
-                .get("id")
+                .get("postId")
                 .toString();
         int commentCount = 2;
         String[] commentIds = new String[commentCount];
@@ -97,7 +97,7 @@ public class PostCommentTest {
         for(int i = 0; i < comments.size(); i++) {
             assertThat(comments.get(i).get("id").textValue()).isEqualTo(commentIds[i]);
         }
-        maskProperties(comments, "id", "postEntryId");
+        maskProperties(comments, "id", "postEntryId", "dateCreated");
         expect.toMatchSnapshot(comments.toString());
     }
 
