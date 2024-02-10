@@ -1,0 +1,18 @@
+createsPostWithComments=[
+  [
+    {
+      "author": "author0",
+      "content": "content0",
+      "dateCreated": "#hidden#",
+      "id": "#hidden#",
+      "postEntryId": "#hidden#"
+    },
+    {
+      "author": "author1",
+      "content": "content1",
+      "dateCreated": "#hidden#",
+      "id": "#hidden#",
+      "postEntryId": "#hidden#"
+    }
+  ]
+]

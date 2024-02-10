@@ -6,7 +6,6 @@ import au.com.origin.snapshots.junit5.SnapshotExtension;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.restassured.http.Cookie;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,8 +35,7 @@ public class PostCommentTest {
     public void createsPostWithComments() throws IOException {
         signUp();
         Response login = login();
-        Cookie jwt = login.getDetailedCookie("jwt");
-        String csrf = login.getBody().jsonPath().get("csrf").toString();
+        String jwt = login.getBody().jsonPath().get("jwtShortLived");
         String postId = given()
                 .trustStore("blog.p12", sslPassword)
                 .baseUri(postUrl)
@@ -53,8 +51,7 @@ public class PostCommentTest {
                                 )
                                 .toString()
                 )
-                .header("X-CSRF-TOKEN", csrf)
-                .cookie(jwt)
+                .header("Authorization", "Bearer " + jwt)
                 .when()
                 .post("/posts/create")
                 .getBody()
@@ -76,7 +73,6 @@ public class PostCommentTest {
                                     .put("postId", postId)
                                     .toString()
                     )
-                    .cookie(jwt)
                     .post("/comments/create")
                     .getBody()
                     .jsonPath()
@@ -88,7 +84,6 @@ public class PostCommentTest {
                                 .trustStore("blog.p12", sslPassword)
                                 .baseUri(blogUrl)
                                 .contentType("application/json")
-                                .cookie(jwt)
                                 .get("/comments/list-comments/" + postId)
                                 .getBody()
                                 .asString()
@@ -98,7 +93,7 @@ public class PostCommentTest {
             assertThat(comments.get(i).get("id").textValue()).isEqualTo(commentIds[i]);
         }
         maskProperties(comments, "id", "postEntryId", "dateCreated");
-        expect.toMatchSnapshot(comments.toString());
+        expect.toMatchSnapshot(comments);
     }
 
     private void signUp() {
