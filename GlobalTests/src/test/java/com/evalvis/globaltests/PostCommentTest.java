@@ -43,7 +43,6 @@ public class PostCommentTest {
                 .body(
                         new ObjectMapper()
                                 .createObjectNode()
-                                .put("author", "Human")
                                 .put("title", "Testing matters")
                                 .put(
                                         "content",
