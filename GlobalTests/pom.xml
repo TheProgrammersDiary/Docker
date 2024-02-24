@@ -18,7 +18,6 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-reload4j</artifactId>
       <version>2.0.9</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
@@ -34,11 +33,13 @@
       <groupId>io.github.origin-energy</groupId>
       <artifactId>java-snapshot-testing-junit5</artifactId>
       <version>4.0.6</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.github.origin-energy</groupId>
       <artifactId>java-snapshot-testing-plugin-jackson</artifactId>
       <version>4.0.6</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.rest-assured</groupId>
