@@ -18,6 +18,10 @@ services:
             jwt512: ${jwt512}
             ssl_blog_passphrase: ${ssl_blog_passphrase}
             SPRING_PROFILES_ACTIVE: docker
+        deploy:
+            resources:
+                limits:
+                    memory: 150M
             
     post:
         container_name: post
@@ -34,6 +38,10 @@ services:
             ssl_blog_passphrase: ${ssl_blog_passphrase}
             minio_password: ${minio_password}
             SPRING_PROFILES_ACTIVE: docker
+        deploy:
+            resources:
+                limits:
+                    memory: 150M
             
     frontend:
         container_name: frontend
