@@ -43,10 +43,11 @@ services:
         ports:
         - "3000:3000"
         volumes:
-        - node_modules:/app/node_modules/
+        - /app/node_modules/
+        - /app/.next/
+        - /app/app/
         environment:
-            ssl_blog_passphrase: ${ssl_blog_passphrase}
-        profiles: [debug]            
+            ssl_blog_passphrase: ${ssl_blog_passphrase} 
         
     postgres:
         image: postgres:15.4
@@ -150,7 +151,4 @@ services:
         environment:
             - GF_SECURITY_ADMIN_PASSWORD=admin
             - GF_SERVER_DOMAIN=localhost
-        profiles: [debug]            
-            
-volumes:
-    node_modules:
+        profiles: [debug]
