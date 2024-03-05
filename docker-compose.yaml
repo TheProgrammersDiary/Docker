@@ -11,6 +11,7 @@ services:
         - mongodb
         - postgres_blog
         environment:
+            mongodb_password: ${mongodb_password}
             smtp_email: ${smtp_email}
             smtp_password: ${smtp_password}
             google_client_id: ${google_client_id}
