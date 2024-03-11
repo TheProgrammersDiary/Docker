@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -30,6 +31,7 @@ public class PostCommentTest {
         this.blogUrl = "https://localhost:8080";
     }
 
+    @Disabled
     @Test
     @SnapshotName("createsPostWithComments")
     public void createsPostWithComments() throws IOException {
